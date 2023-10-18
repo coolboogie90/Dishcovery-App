@@ -1,0 +1,118 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f5fa;
+}
+
+.container {
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content:flex-start;
+    align-items: center;
+    min-height: 100vh;
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+}
+
+#mealGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-gap: 20px;
+    width: 100%; /* Added */
+    max-height: calc(100vh - 100px); /* Added */
+    overflow-y: auto; /* Added */
+}
+
+.meal {
+    border-radius: 5px;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.meal img {
+    width: 100%;
+    height: auto;
+}
+
+.meal-title {
+    padding: 10px;
+    background-color: #f1f1f1;
+    text-align: center;
+}
+
+/* Modal container */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 50%;
+    height: 50%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999; /* Add a higher z-index value */
+}
+
+/* Modal content */
+.modal-content {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* Modal body */
+.modal-body {
+    padding: 10px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+/* Modal footer */
+.modal-footer {
+    background-color: #f1f1f1;
+    padding: 10px;
+    text-align: center;
+}
+
+
+/* Meal image */
+.meal-image {
+    width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+}
+
+/* Ingredients list */
+.ingredients-list {
+    list-style-type: none;
+    padding: 0;
+    margin-bottom: 10px;
+    overflow-y: auto;
+    max-height: 200px; /* Adjust the height as needed */
+}
+
+.ingredients-list li {
+    margin-bottom: 5px;
+}
+
+/* Instructions */
+.instructions {
+    white-space: pre-line;
+    overflow-y: auto;
+    max-height: 200px; /* Adjust the height as needed */
+}
