@@ -3,6 +3,7 @@ const searchInput = document.querySelector('#searchInput');
 const mealGrid = document.querySelector('#mealGrid');
 const modal = document.querySelector('#modal');
 const mealDetails = document.querySelector('#mealDetails');
+const mealTemplate = document.getElementById('mealTemplate');
 const closeBtn = document.querySelector('.close');
 
 // Hide the modal initially
@@ -30,10 +31,10 @@ async function fetchMeals(searchTerm) {
         const response = await fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${searchTerm}`);
         const data = await response.json();
 
-        if(response.status !== 200){
+        if (response.status !== 200) {
             throw new Error("Cannot get response", response.status);
         }
-        
+
         const meals = data.meals;
         if (meals) {
             // Display the meals in the grid
@@ -51,18 +52,53 @@ async function fetchMeals(searchTerm) {
 
 // Function to display a meal in the grid
 function displayMeal(meal) {
-    const mealItem = document.createElement('div');
-    mealItem.classList.add('meal');
-    mealItem.innerHTML = `
-    <img src="${meal.strMealThumb}" alt="${meal.strMeal}">
-    <div class="meal-title">${meal.strMeal}</div>
-    `;
+    // Clone the meal template
+    const mealItem = mealTemplate.content.cloneNode(true);
+
+    // Update values with meal data
+    const mealImage = mealItem.querySelector('.meal-image');
+    mealImage.src = meal.strMealThumb;
+    mealImage.alt = meal.strMeal;
+
+    const mealTitle = mealItem.querySelector('.meal-title');
+    mealTitle.textContent = meal.strMeal;
+
+    // Add clone to mealGrid
     mealGrid.appendChild(mealItem);
-    
-    // Add click event listener to open the modal
-    mealItem.addEventListener('click', function () {
+
+    // Event to open modal
+    const mealElement = mealGrid.lastElementChild;
+    mealElement.addEventListener('click', function () {
         openModal(meal);
     });
+}
+
+// Function to get the meal details
+function getMealDetails(meal) {
+    let details = '';
+
+    details += `
+        <div class="modal-content">
+        <div class="modal-body">
+            <div class="meal-image">
+            <img src="${meal.strMealThumb}" alt="${meal.strMeal}">
+            </div>
+            <div class="meal-info">
+            <h2>${meal.strMeal}</h2>
+            <h3>Ingredients</h3>
+            <ul class="ingredients-list">
+                ${getIngredientsList(meal)}
+            </ul>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <h3>Instructions</h3>
+            <p class="instructions">${meal.strInstructions}</p>
+        </div>
+        </div>
+  `;
+
+    return details;
 }
 
 // Function to get the list of ingredients and measurements
@@ -78,46 +114,27 @@ function getIngredientsList(meal) {
     return ingredientsList;
 }
 
-// Function to open the modal and display meal details
+// Function to open the modal with meal details
 function openModal(meal) {
-    if (meal) {
-        modal.style.display = 'block';
-        mealDetails.innerHTML = `
-            <div class="modal-content">
-                <div class="modal-body">
-                    <div class="meal-image">
-                        <img src="${meal.strMealThumb}" alt="${meal.strMeal}">
-                    </div>
-                    <div class="meal-info">
-                        <h2>${meal.strMeal}</h2>
-                        <h3>Ingredients</h3>
-                        <ul class="ingredients-list">
-                            ${getIngredientsList(meal)}
-                        </ul>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <h3>Instructions</h3>
-                    <p class="instructions">${meal.strInstructions}</p>
-                </div>
-            </div>
-        `;
+    // Update the meal details in the modal
+    mealDetails.innerHTML = getMealDetails(meal);
 
-        // Add click event listener to close the modal
-        const closeBtn = document.querySelector('.close');
-        closeBtn.addEventListener('click', closeModal);
-    }
+    // Show the modal
+    modal.style.display = 'block';
 }
 
 // Function to close the modal
 function closeModal() {
     modal.style.display = 'none';
-    mealDetails.innerHTML = '';
 }
 
-// Close the modal when the user clicks outside of it 
+// Add event listener to close the modal when clicking on the "x" button
+closeBtn.addEventListener('click', closeModal);
+
+// Add event listener to close the modal when clicking anywhere outside
 window.addEventListener('click', function (event) {
     if (event.target === modal) {
         closeModal();
     }
 });
+

@@ -12,18 +12,28 @@
             <h1>Dishcovery App</h1>
             <input type="text" id="searchInput" placeholder="Search for a meal">
         </header>
-    
+
         <main>
             <div id="mealGrid"></div>
         </main>
-    
+
         <dialog id="modal" class="modal">
             <div class="modal-content">
                 <span class="close">&times;</span>
                 <div id="mealDetails"></div>
             </div>
         </dialog>
-        
+
+        <template id="mealTemplate">
+            <div class="meal">
+                <img src="" alt="" class="meal-image">
+                <div class="meal-info">
+                    <h2 class="meal-title"></h2>
+                    <ul class="ingredients-list"></ul>
+                </div>
+            </div>
+        </template>
+
     </div>
 
     <script src="script.js"></script>
