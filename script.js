@@ -5,8 +5,9 @@ const modal = document.querySelector('#modal');
 const mealDetails = document.querySelector('#mealDetails');
 const mealTemplate = document.getElementById('mealTemplate');
 const closeBtn = document.querySelector('.close');
-let isOpen=false;
+let isOpen = false;
 const dialog = document.querySelector("dialog");
+
 
 // Add event listener to the search input
 searchInput.addEventListener('keydown', async function (event) {
@@ -67,7 +68,7 @@ function displayMeal(meal) {
 
     // Event to open modal
     const mealElement = mealGrid.lastElementChild;
-    mealElement.addEventListener('click', () =>{
+    mealElement.addEventListener('click', () => {
         openModal(meal);
     });
 }
@@ -77,14 +78,16 @@ function getMealDetails(meal) {
     let details = '';
 
     details += `
-        <div class="modal-content">
+    <div class="modal-content">
         <div class="modal-body">
             <div class="meal-image">
             <img src="${meal.strMealThumb}" alt="${meal.strMeal}">
             </div>
+            <br>
             <div class="meal-info">
                 <h2>${meal.strMeal}</h2>
                 <h3>Ingredients</h3>
+                <br>
                 <ul class="ingredients-list">
                     ${getIngredientsList(meal)}
                 </ul>
@@ -92,9 +95,10 @@ function getMealDetails(meal) {
         </div>
         <div class="modal-footer">
             <h3>Instructions</h3>
+            <br>
             <p class="instructions">${meal.strInstructions}</p>
         </div>
-        </div>
+    </div>
     `;
 
     return details;
@@ -107,7 +111,7 @@ function getIngredientsList(meal) {
         const ingredient = meal[`strIngredient${i}`];
         const measurement = meal[`strMeasure${i}`];
         if (ingredient && ingredient.trim() !== '') {
-            ingredientsList += `<li>${ingredient} - ${measurement}</li>`;
+            ingredientsList += `<li>${i}) ${ingredient} - ${measurement}</li>`;
         }
     }
     return ingredientsList;
@@ -119,7 +123,7 @@ function openModal(meal) {
     mealDetails.innerHTML = getMealDetails(meal);
 
     // Show the modal
-    //isOpen = true;
+    //isOpen = true
     modal.showModal();
 }
 
@@ -130,15 +134,13 @@ const closeModal = () => {
 }
 
 // Add event listener to close the modal when clicking on the "x" button
-//closeBtn.addEventListener('click', closeModal);
+closeBtn.addEventListener('click', closeModal);
 
-dialog.addEventListener('click', (e) => {
-    if (!e.target === modal){
-        return; 
-    } 
-   
-    console.log("window")
-    modal.close();
-})
+modal.addEventListener('click', (e) => {
+    if (e.target === modal) {
+        modal.close();
+    }
+});
+
 
 

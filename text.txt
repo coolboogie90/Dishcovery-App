@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Dishcovery App</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>Dishcovery App</h1>
+            <div class="searchArea">
+                <input type="text" id="searchInput" placeholder="Search for a meal">
+                <div id="searchIcon">
+                    <i class='bx bx-fork bx-md'></i>
+                </div>
+            </div>
+        </header>
+
+        <main>
+            <div id="mealGrid"></div>
+        </main>
+        
+        <dialog id="modal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <div id="mealDetails"></div>
+            </div>
+        </dialog>
+
+        <template id="mealTemplate">
+            <div class="meal">
+                <div class="mealThumb">
+                    <img src="" alt="" class="meal-image">
+                </div>
+                <div class="meal-info">
+                    <h2 class="meal-title"></h2>
+                </div>
+            </div>
+        </template>
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
+
+
+
+@import url("https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;600&display=swap");
+
+:root {
+    --accent: rgb(245, 188, 83);
+    --bg: rgb(39, 50, 56);
+    --blueGrey: rgb(93, 114, 131);
+    --orange: rgb(240, 130, 51);
+    --red: rgb(166, 42, 34);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Raleway', sans-serif;
+    background: var(--blueGrey);
+    color: var(--orange);
+}
+
+.container {
+    margin: 0 auto;
+    margin-top: 5%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    min-height: 100vh;
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+}
+
+header>h1 {
+    text-align: center;
+    font-weight: 600;
+    font-size: 3rem;
+    margin-bottom: 40px;
+    color: whitesmoke;
+}
+
+.searchArea {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#searchInput {
+    margin-bottom: 40px;
+    height: 70px;
+    width: 450px;
+    font-size: 1.25em;
+    max-width: 900px;
+    outline: none;
+    border: none;
+    border-radius: 50px;
+    padding: 0 30px;
+    padding-right: 60px;
+    color: rgb(105, 105, 105);
+    background-image: linear-gradient(to right, rgb(255, 255, 255), rgba (255, 255, 255, 0));
+    background-repeat: no-repeat;
+    background-position: left bottom;
+    background-size: 100% 2px;
+
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.03), 0 2px 2px rgba(0, 0, 0, 0.03), 0 4px 4px rgba(0, 0, 0, 0.03), 0 6px 8px rgba(0, 0, 0, 0.03), 0 8px 16px rgba(0, 0, 0, 0.03);
+}
+
+#searchIcon {
+    position: absolute;
+    right: 3%;
+    top: 15%;
+    margin-bottom: 20px;
+    justify-content: center;
+    align-items: center;
+    color: grey;
+}
+
+
+#mealGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    grid-gap: 20px;
+    width: 100%;
+    max-height: calc(100vh - 100px);
+    overflow-y: auto;
+}
+
+.meal {
+    display: flex;
+    flex-direction: column;
+    border-radius: 20px;
+    overflow: hidden;
+    cursor: pointer;
+    box-shadow: 0 1px 1px var(--bg), 0 2px 2px var(--bg), 0 4px 4px var(--bg), 0 6px 8px var(--bg), 0 8px 16px var(--bg);
+}
+
+.meal img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    margin: 0;
+}
+
+.meal-info {
+    position: relative;
+    text-align: center;
+    font-size: 1.01em;
+    font-weight: 500;
+    flex-wrap: nowrap;
+    background-color: whitesmoke;
+    justify-content: center;
+    height: 100px;
+}
+
+.meal-info>h2 {
+    padding: 20px auto;
+    margin: 10px 0 5px;
+}
+
+/* Modal container */
+.modal {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    max-width: 900px;
+    height: 75%;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: var(--orange);
+    align-items: center;
+    justify-content: center;
+}
+
+/* Modal content */
+.modal-content {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+/* Modal body */
+.modal-body {
+    width: 50%;
+    flex-grow: 1;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+/* Modal footer */
+.modal-footer {
+    flex-grow: 1;
+    background-color: #f1f1f1;
+    padding: 10px;
+    text-align: center;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Meal image */
+.meal-image img {
+    width: 100%;
+    flex-grow: 1;
+    object-fit: contain;
+    height: auto;
+    margin-bottom: 10px;
+}
+
+.meal-info {
+    flex-grow: 1;
+}
+
+/* Ingredients list */
+.ingredients-list {
+    list-style-type: none;
+    padding: 0;
+    margin-bottom: 10px;
+    overflow-y: auto;
+    height: 100%;
+}
+
+.ingredients-list li {
+    margin-bottom: 5px;
+}
+
+/* Instructions */
+.instructions {
+    white-space: pre-line;
+    overflow-y: auto;
+    height: 100%;
+    /* Adjust the height as needed */
+}
+
+.shape {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, 50%);
+    background-size: 200px 200px;
+    border-radius: 80% 20% 32% 68% / 58% 22% 78% 42%;
+    height: 200px;
+    width: 200px;
+    background-color: red;
+}
+
+// Get references to the necessary elements
+const searchInput = document.querySelector('#searchInput');
+const mealGrid = document.querySelector('#mealGrid');
+const modal = document.querySelector('#modal');
+const mealDetails = document.querySelector('#mealDetails');
+const mealTemplate = document.getElementById('mealTemplate');
+const closeBtn = document.querySelector('.close');
+let isOpen = false;
+const dialog = document.querySelector("dialog");
+
+
+// Add event listener to the search input
+searchInput.addEventListener('keydown', async function (event) {
+    if (event.key === 'Enter') {
+        const searchTerm = searchInput.value;
+        try {
+            await fetchMeals(searchTerm);
+        } catch (error) {
+            console.error('Error fetching meals:', error);
+        }
+    }
+});
+
+// Function to fetch meals from the API
+async function fetchMeals(searchTerm) {
+    // Clear the meal grid
+    mealGrid.innerHTML = '';
+
+    try {
+        // Fetch meals from the API
+        const response = await fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${searchTerm}`);
+        const data = await response.json();
+
+        if (response.status !== 200) {
+            throw new Error("Cannot get response", response.status);
+        }
+
+        const meals = data.meals;
+        if (meals) {
+            // Display the meals in the grid
+            meals.forEach(meal => {
+                displayMeal(meal);
+            });
+        } else {
+            // Show a message if no meals found
+            mealGrid.innerHTML = 'No meals found.';
+        }
+    } catch (error) {
+        throw new Error('Error fetching meals:', error);
+    }
+}
+
+// Function to display a meal in the grid
+function displayMeal(meal) {
+    // Clone the meal template
+    const mealItem = mealTemplate.content.cloneNode(true);
+
+    // Update values with meal data
+    const mealImage = mealItem.querySelector('.meal-image');
+    mealImage.src = meal.strMealThumb;
+    mealImage.alt = meal.strMeal;
+
+    const mealTitle = mealItem.querySelector('.meal-title');
+    mealTitle.textContent = meal.strMeal;
+
+    // Add clone to mealGrid
+    mealGrid.appendChild(mealItem);
+
+    // Event to open modal
+    const mealElement = mealGrid.lastElementChild;
+    mealElement.addEventListener('click', () => {
+        openModal(meal);
+    });
+}
+
+// Function to get the meal details
+function getMealDetails(meal) {
+    let details = '';
+
+    details += `
+    <div class="modal-content">
+        <div class="modal-body">
+            <div class="meal-image">
+            <img src="${meal.strMealThumb}" alt="${meal.strMeal}">
+            </div>
+            <br>
+            <div class="meal-info">
+                <h2>${meal.strMeal}</h2>
+                <h3>Ingredients</h3>
+                <br>
+                <ul class="ingredients-list">
+                    ${getIngredientsList(meal)}
+                </ul>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <h3>Instructions</h3>
+            <br>
+            <p class="instructions">${meal.strInstructions}</p>
+        </div>
+    </div>
+    `;
+
+    return details;
+}
+
+// Function to get the list of ingredients and measurements
+function getIngredientsList(meal) {
+    let ingredientsList = '';
+    for (let i = 1; i <= 20; i++) {
+        const ingredient = meal[`strIngredient${i}`];
+        const measurement = meal[`strMeasure${i}`];
+        if (ingredient && ingredient.trim() !== '') {
+            ingredientsList += `<li>${ingredient} - ${measurement}</li>`;
+        }
+    }
+    return ingredientsList;
+}
+
+// Function to open the modal with meal details
+function openModal(meal) {
+    // Update the meal details in the modal
+    mealDetails.innerHTML = getMealDetails(meal);
+
+    // Show the modal
+    //isOpen = true;
+    modal.showModal();
+}
+
+// Function to close the modal
+const closeModal = () => {
+    modal.close();
+
+}
+
+// Add event listener to close the modal when clicking on the "x" button
+//closeBtn.addEventListener('click', closeModal);
+
+dialog.addEventListener('click', (e) => {
+    if (!e.target === modal) {
+        return;
+    }
+
+    console.log("window")
+    modal.close();
+})
+
+
+
+
