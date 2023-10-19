@@ -3,6 +3,7 @@
 
 <head>
     <title>Dishcovery App</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="style.css">
 </head>
 
@@ -10,12 +11,19 @@
     <div class="container">
         <header>
             <h1>Dishcovery App</h1>
-            <input type="text" id="searchInput" placeholder="Search for a meal">
+            <div class="searchArea">
+                <input type="text" id="searchInput" placeholder="Search for a meal">
+                <div id="searchIcon">
+                    <i class='bx bx-fork bx-md'></i>
+                </div>
+            </div>
         </header>
 
         <main>
             <div id="mealGrid"></div>
         </main>
+
+        <div class="shape"></div>
 
         <dialog id="modal" class="modal">
             <div class="modal-content">
@@ -26,10 +34,11 @@
 
         <template id="mealTemplate">
             <div class="meal">
-                <img src="" alt="" class="meal-image">
+                <div class="mealThumb">
+                    <img src="" alt="" class="meal-image">
+                </div>
                 <div class="meal-info">
                     <h2 class="meal-title"></h2>
-                    <ul class="ingredients-list"></ul>
                 </div>
             </div>
         </template>

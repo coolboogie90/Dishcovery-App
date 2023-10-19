@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;600&display=swap");
+
 * {
     margin: 0;
     padding: 0;
@@ -5,15 +7,16 @@
 }
 
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Raleway', sans-serif;
     background-color: #f4f5fa;
 }
 
 .container {
     margin: 0 auto;
+    margin-top: 10%;
     display: flex;
     flex-direction: column;
-    justify-content:flex-start;
+    justify-content: flex-start;
     align-items: center;
     min-height: 100vh;
     width: 100%;
@@ -21,19 +24,66 @@ body {
     position: relative;
 }
 
+header > h1 {
+    text-align: center;
+    font-weight: 600;
+    font-size: 3rem;
+    margin-bottom: 40px;
+}
+
+.searchArea{
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#searchInput{
+    margin-bottom: 40px;
+    height: 70px;
+    width: 450px;
+    font-size: 1.25em;
+    max-width: 900px;
+    outline: none;
+    border: none;
+    border-radius: 50px;
+    padding: 0 30px;
+    padding-right: 60px;
+    color: rgb(105, 105, 105);
+    background-image: linear-gradient(to right, rgb(255, 255, 255), rgba
+    (255, 255, 255, 0));
+    background-repeat: no-repeat;
+    background-position: left bottom;
+    background-size: 100% 2px;
+
+    box-shadow: 0 1px 1px rgba(0,0,0,0.03), 0 2px 2px rgba(0,0,0,0.03), 0 4px 4px rgba(0,0,0,0.03), 0 6px 8px rgba(0,0,0,0.03), 0 8px 16px rgba(0,0,0,0.03);   
+}
+
+#searchIcon{
+    position: absolute;
+    right: 3%;
+    top: 15%;
+    margin-bottom: 20px;
+    justify-content: center;
+    align-items: center;
+    color: grey;
+}
+
+
 #mealGrid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
     grid-gap: 20px;
-    width: 100%; /* Added */
-    max-height: calc(100vh - 100px); /* Added */
-    overflow-y: auto; /* Added */
+    width: 100%;
+    max-height: calc(100vh - 100px);
+    overflow-y: auto;
 }
 
 .meal {
-    border-radius: 5px;
+    border-radius: 20px;
     overflow: hidden;
     cursor: pointer;
+    box-shadow: 0 1px 1px rgba(0,0,0,0.11), 0 2px 2px rgba(0,0,0,0.11), 0 4px 4px rgba(0,0,0,0.11), 0 6px 8px rgba(0,0,0,0.11), 0 8px 16px rgba(0,0,0,0.11);
 }
 
 .meal img {
@@ -41,10 +91,20 @@ body {
     height: auto;
 }
 
+.meal-info {
+    position: relative;
+    justify-content: center;
+}
+
 .meal-title {
-    padding: 10px;
-    background-color: #f1f1f1;
+    background-color: #f4f5fa;
+}
+
+.meal-title>h2 {
     text-align: center;
+    font-weight: 400;
+    text-align: center;
+    justify-content: center;
 }
 
 /* Modal container */
@@ -55,7 +115,7 @@ body {
     width: 50%;
     height: 50%;
     background-color: rgba(0, 0, 0, 0.5);
-    
+
     align-items: center;
     justify-content: center;
 }
@@ -116,7 +176,8 @@ body {
     padding: 0;
     margin-bottom: 10px;
     overflow-y: auto;
-    max-height: 200px; /* Adjust the height as needed */
+    max-height: 200px;
+    /* Adjust the height as needed */
 }
 
 .ingredients-list li {
@@ -127,5 +188,18 @@ body {
 .instructions {
     white-space: pre-line;
     overflow-y: auto;
-    max-height: 200px; /* Adjust the height as needed */
+    max-height: 200px;
+    /* Adjust the height as needed */
+}
+
+.shape {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, 50%);
+    background-size: 200px 200px;
+    border-radius: 80% 20% 32% 68% / 58% 22% 78% 42%;
+    height: 200px;
+    width: 200px;
+    background-color: red;
 }

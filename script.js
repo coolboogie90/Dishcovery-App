@@ -6,15 +6,7 @@ const mealDetails = document.querySelector('#mealDetails');
 const mealTemplate = document.getElementById('mealTemplate');
 const closeBtn = document.querySelector('.close');
 let isOpen=false;
-
-const dialog = document.querySelector("dialog").addEventListener('click', (e) => {
-    if (!e.target === modal){
-        return; 
-    } 
-   
-    console.log("window")
-    modal.close();
-})
+const dialog = document.querySelector("dialog");
 
 // Add event listener to the search input
 searchInput.addEventListener('keydown', async function (event) {
@@ -91,11 +83,11 @@ function getMealDetails(meal) {
             <img src="${meal.strMealThumb}" alt="${meal.strMeal}">
             </div>
             <div class="meal-info">
-            <h2>${meal.strMeal}</h2>
-            <h3>Ingredients</h3>
-            <ul class="ingredients-list">
-                ${getIngredientsList(meal)}
-            </ul>
+                <h2>${meal.strMeal}</h2>
+                <h3>Ingredients</h3>
+                <ul class="ingredients-list">
+                    ${getIngredientsList(meal)}
+                </ul>
             </div>
         </div>
         <div class="modal-footer">
@@ -134,10 +126,19 @@ function openModal(meal) {
 // Function to close the modal
 const closeModal = () => {
     modal.close();
+
 }
 
 // Add event listener to close the modal when clicking on the "x" button
-closeBtn.addEventListener('click', closeModal);
+//closeBtn.addEventListener('click', closeModal);
 
+dialog.addEventListener('click', (e) => {
+    if (!e.target === modal){
+        return; 
+    } 
+   
+    console.log("window")
+    modal.close();
+})
 
 
