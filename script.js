@@ -30,6 +30,8 @@ async function fetchMeals(searchTerm) {
         // Fetch meals from the API
         const response = await fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${searchTerm}`);
         const data = await response.json();
+        //Avec destructuring du data.meals, on crée une variable meals qui va auto créer une array avec les propriétés
+        //const {meals} = await res.json();
 
         if (response.status !== 200) {
             throw new Error("Cannot get response", response.status);
